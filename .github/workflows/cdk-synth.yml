@@ -1,0 +1,57 @@
+name: CDK Synth
+
+on:
+  workflow_call:
+    inputs:
+      architecture:
+        description: "Architecture"
+        required: false
+        default: "arm64"
+        type: string
+      ref:
+        description: "Ref"
+        required: false
+        type: string
+        default: ${{ github.sha }}
+      language:
+        description: "Language"
+        required: false
+        type: string
+        default: "python"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-cdk:
+    name: Deploy CDK
+    runs-on: ${{ fromJson(format('["self-hosted", "linux", "{0}", "staging"]', inputs.architecture || 'arm64')) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+
+      - name: Configure AWS Credentials
+        id: aws-credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_STAGING_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
+          output-credentials: true
+
+      - name: 🔑 Configurar Credenciais AWS
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
+
+      - name: Install Dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Deploy CDK
+        run: cdk synth
