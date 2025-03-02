@@ -31,7 +31,6 @@ jobs:
 
       - name: 📦 Instalar dependências da Lambda
         run: |
-          cd lambda
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt -t .
