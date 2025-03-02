@@ -32,10 +32,15 @@ jobs:
       - name: 📦 Instalar dependências da Lambda
         run: |
           python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt -t .
-          deactivate
-          cd ..
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          npm install -g aws-cdk
+
+      - name: Validate Python Environment
+        run: |
+          source .venv/bin/activate
+          python --version
 
       - name: 🔑 Configurar Credenciais AWS
         run: |
@@ -45,5 +50,5 @@ jobs:
 
       - name: 🚀 Deploy com AWS CDK
         run: |
-          cdk bootstrap
-          cdk deploy --require-approval never
+          source .venv/bin/activate
+          cdk deploy --debug --all --no-cache --require-approval never
