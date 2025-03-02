@@ -6,13 +6,13 @@ API_URL = "https://ypjkbbt6hgjcoi46mdpv5hkjzi0ttivo.lambda-url.us-east-2.on.aws"
 
 def get_file_url(job_id, file_id):
     
-    response = requests.get(f"{API_URL}/api/v1/document/{job_id}?documentId={file_id}", verify=False)
+    response = requests.get(f"{API_URL}/api/v1/document/{job_id}?documentId={file_id}")
     response.raise_for_status()
     return response.json()
 
 def get_job_by_id(job_id):
     
-    response = requests.get(f"{API_URL}/api/v1/job/{job_id}", verify=False)
+    response = requests.get(f"{API_URL}/api/v1/job/{job_id}")
     response.raise_for_status()
     return response.json()
 
@@ -61,5 +61,5 @@ def create_job_analysis(source_data, opnion_data, job_id):
     headers = {"Content-Type": "application/json"}
 
     # Fazendo a requisição POST
-    response = requests.post(f"{API_URL}/api/v1/analysis/{job_id}/create", data=json.dumps(api_payload), headers=headers, verify=False)
+    response = requests.post(f"{API_URL}/api/v1/analysis/{job_id}/create", data=json.dumps(api_payload), headers=headers)
     return response.json()
