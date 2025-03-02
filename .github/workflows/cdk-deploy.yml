@@ -1,0 +1,50 @@
+name: Deploy AWS Lambda with CDK
+
+on:
+  push:
+    branches:
+      - master  # Troque para sua branch principal
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Instalar o Node.js e AWS CDK
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 🏗️ Instalar Dependências do CDK
+        run: npm install -g aws-cdk
+
+      - name: 🏗️ Instalar Python e Dependências
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: 📦 Instalar dependências da Lambda
+        run: |
+          cd lambda
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt -t .
+          deactivate
+          cd ..
+
+      - name: 🔑 Configurar Credenciais AWS
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
+
+      - name: 🚀 Deploy com AWS CDK
+        run: |
+          cdk bootstrap
+          cdk deploy --require-approval never

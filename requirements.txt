@@ -1,2 +1,7 @@
-aws-cdk-lib==2.177.0
-constructs>=10.0.0,<11.0.0
+attrs==24.2.0
+aws-cdk-lib==2.143.1
+aws-cdk.asset-awscli-v1
+aws-cdk.asset-kubectl-v20
+aws-cdk.asset-node-proxy-agent-v6
+aws-cdk.aws-lambda-python-alpha
+aws-cdk.cloud-assembly-schema
