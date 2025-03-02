@@ -35,9 +35,16 @@ class HumanResourceApplyAnalysisStack(Stack):
             handler="lambda_handler",
             runtime=Runtime.PYTHON_3_12,
             timeout=Duration.seconds(120),
-            bundling=python.BundlingOptions(
-                asset_excludes=[".venv"]
-            )
+             bundling=python.BundlingOptions(
+        # Garante que as dependências do requirements.txt sejam instaladas
+        command=[
+            "bash", "-c",
+            "pip install -r requirements.txt -t /asset-output && cp -au . /asset-output"
+        ],
+        asset_excludes=[".venv", "__pycache__", "*.pyc"],
+        install_dependencies=True,
+        output_type=python.BundlingOutput.ARCHIVED,
+    )
         )
 
         huma_resource_apply_queue.grant_consume_messages(analysis_application_lambda)
