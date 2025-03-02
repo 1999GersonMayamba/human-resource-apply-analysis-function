@@ -31,7 +31,7 @@ class HumanResourceApplyAnalysisStack(Stack):
             description ="Lambda responsável por analinar dados de candidatos a vagas de emprego e gerar uma opinião crítica sobre o currículo",
             entry="src/",
             architecture=lambda_.Architecture.X86_64,
-            index="human_resource_apply_analysis_lambda.py",
+            index="human-resource-apply-analysis-lambda.py",
             handler="lambda_handler",
             runtime=Runtime.PYTHON_3_12,
             timeout=Duration.seconds(120),
