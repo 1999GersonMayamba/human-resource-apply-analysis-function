@@ -13,6 +13,6 @@ def extract_text_from_pdf(pdf_path):
 
 
 def download_file(url):
-    response = requests.get(url, verify=False)
+    response = requests.get(url)
     response.raise_for_status()
     return BytesIO(response.content)
