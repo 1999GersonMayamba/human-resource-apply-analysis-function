@@ -31,7 +31,6 @@ def analysis_application(data):
 
     # Gerar uma opinião sobre o currículo com base na vaga de emprego
     opnion = ai.generate_opnion(texto_curriculo, job_description)
-    print(opnion)
 
     # Remover a formatação de código (```)
     data = opnion.strip().replace("```", "").replace("json", "").strip()
