@@ -21,6 +21,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3 python3-venv python3-pip
 
+      - name: Set Environment Variables
+        run: |
+          echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
+          echo "DOCKER_DEFAULT_PLATFORM=linux/amd64" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: |
           python3 -m venv .venv
@@ -40,7 +45,7 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region ${{ secrets.AWS_REGION }}
 
-      - name: 🚀 Deploy com AWS CDK
+      - name: Deploy CDK
         run: |
           source .venv/bin/activate
           cdk deploy --debug --all --no-cache --require-approval never
