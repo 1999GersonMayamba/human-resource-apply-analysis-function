@@ -45,7 +45,7 @@ def analysis_application(data):
     json_data = json_match.group(0)  # Extrai a string JSON
     source_data = json.loads(json_data)    # Converte a string JSON para um dicionário Python
 
-    response = human_resource_api.create_job_analysis(source_data, opnion_data, job["data"]["id"])
+    response = human_resource_api.create_job_analysis(source_data, opnion_data, job["data"]["id"], data["fileName"])
     print(response)
     
     print("Analysis a job application completed.")
