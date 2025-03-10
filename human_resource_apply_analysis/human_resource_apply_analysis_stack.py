@@ -37,8 +37,7 @@ class HumanResourceApplyAnalysisStack(Stack):
             timeout=Duration.seconds(120),
             bundling=python.BundlingOptions(
                 asset_excludes=[".venv"]
-            ),
-            log_retention=Duration.days(1)
+            )
             
         )
 
