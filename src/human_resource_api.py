@@ -17,7 +17,7 @@ def get_job_by_id(job_id):
     return response.json()
 
 
-def create_job_analysis(source_data, opnion_data, job_id, fileName):
+def create_job_analysis(source_data, opnion_data, job_id, file_name, application_code):
     
     # Mapeando os dados para o formato da API
     api_payload = {
@@ -29,7 +29,8 @@ def create_job_analysis(source_data, opnion_data, job_id, fileName):
         "nationality": source_data["nacionalidade"] or "",
         "description": source_data["descricao"],
         "location": source_data["endereco"],
-        "fileUrl": fileName,
+        "fileUrl": file_name,
+        "code": application_code,
         "skills": source_data["habilidades"],
         "experiences": [
             {
